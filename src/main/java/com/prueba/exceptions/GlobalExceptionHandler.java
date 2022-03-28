@@ -2,10 +2,7 @@ package com.prueba.exceptions;
 
 import com.prueba.dto.DetalleError;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +18,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<DetalleError> resourceNotFoundExceptionHandler(ResourceNotFoundException rnfe, WebRequest webRequest) {
-        System.out.println(webRequest.getDescription(true));
         DetalleError detalleError = new DetalleError(404, false, rnfe.getMessage(), new ArrayList<>());
         return new ResponseEntity<>(detalleError, HttpStatus.NOT_FOUND);
     }
@@ -36,7 +32,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<DetalleError> exceptionHandler(Exception e, WebRequest webRequest) {
         List<String> errorList = new ArrayList<String>();
         errorList.add(e.getMessage());
-        System.out.println(e.getMessage());
         DetalleError detalleError = new DetalleError(500, false, "Ha ocurrido un error inesperado.", errorList);
         return new ResponseEntity<>(detalleError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -46,9 +41,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> errorList = new ArrayList<String>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             errorList.add(((FieldError) error).getDefaultMessage());
-//            String nombre = ((FieldError) error).getField();
         });
-        DetalleError detalleError = new DetalleError(400, false, "Campos no válidos.", errorList);
+        DetalleError detalleError = new DetalleError(400, false, errorList.get(0), new ArrayList<>());
         return new ResponseEntity<>(detalleError, HttpStatus.BAD_REQUEST);
     }
 

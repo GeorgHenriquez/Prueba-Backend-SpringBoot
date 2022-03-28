@@ -1,6 +1,7 @@
 package com.prueba.services;
 
 import com.prueba.dto.PacienteDTO;
+
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ public interface PacienteService {
     public int guardarPaciente(PacienteDTO pacienteDTO);
     
     public Map<String, Object> listaPacientes(int page, int perPage, 
-            String tipoFiltro, String valorFiltro, String estado);
+                String tipoFiltro, String valorFiltro, String estado);
     
     public PacienteDTO obtenerPacientePorId(int idPaciente);
     

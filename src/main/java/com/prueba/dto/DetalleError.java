@@ -1,6 +1,5 @@
 package com.prueba.dto;
 
-import java.util.Date;
 import java.util.List;
 
 public class DetalleError {

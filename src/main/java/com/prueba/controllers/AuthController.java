@@ -1,6 +1,5 @@
 package com.prueba.controllers;
 
-import com.prueba.dto.JWTAuthResponseDTO;
 import com.prueba.dto.UsuarioDTO;
 import com.prueba.security.JwtTokenProvider;
 import java.util.HashMap;
@@ -31,16 +30,24 @@ public class AuthController {
     public ResponseEntity<Object> login(@RequestBody UsuarioDTO usuarioDTO) {
         Map<String, Object> response = new HashMap<String, Object>();
         
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioDTO.getUsername(), usuarioDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenProvider.generarToken(authentication);
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioDTO.getUsername(), usuarioDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtTokenProvider.generarToken(authentication);
+
+            response.put("code", 200);
+            response.put("success", true);
+            response.put("message", "Usuario autenticado.");
+            response.put("token", token);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        } catch (Exception ae) {
+            response.put("code", 401);
+            response.put("success", false);
+            response.put("message", "Usuario no autenticado.");
+            return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
+        }
         
-        response.put("code", 200);
-        response.put("success", true);
-        response.put("message", "OK");
-        response.put("token", token);
-        
-        return new ResponseEntity<Object>(response, HttpStatus.OK);    
+            
     } 
     
 }

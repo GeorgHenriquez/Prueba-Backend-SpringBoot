@@ -1,12 +1,16 @@
 package com.prueba.dto;
 
 import com.prueba.models.TipoIdentificacion;
-import java.sql.Date;
+import java.sql.Timestamp;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class PacienteDTO {
 
     private int idPaciente;
@@ -34,18 +38,18 @@ public class PacienteDTO {
     @NotEmpty(message = "Campo estado puede ser vacio.")
     private String estado;
  
-    private Date fechaIngreso;
+    private Timestamp fechaIngreso;
 
     private String usuarioIngreso;
 
-    private Date fechaModificacion;
+    private Timestamp fechaModificacion;
 
     private String usuarioModificacion;
     
     private TipoIdentificacion tipoIdentificacion; 
 
     public PacienteDTO() {
-        this.fechaIngreso = new Date(System.currentTimeMillis());
+        this.fechaIngreso = new Timestamp(System.currentTimeMillis());
         this.nombreCompleto = this.armarNombreCompleto();
     }
     

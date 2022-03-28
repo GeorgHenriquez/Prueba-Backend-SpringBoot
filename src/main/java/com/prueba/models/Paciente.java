@@ -2,7 +2,7 @@ package com.prueba.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 import javax.persistence.*;
 import lombok.Data;
 
@@ -12,8 +12,8 @@ import lombok.Data;
 public class Paciente implements Serializable {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MGM_SEQ_PACIENT")
-    @SequenceGenerator(name="MGM_SEQ_PACIENT", sequenceName="MGM_SEQ_PACIENT", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.AUTO, generator="SEQUENCE_PACIENT")
+    @SequenceGenerator(name="SEQUENCE_PACIENT", sequenceName="SEQUENCE_PACIENT", allocationSize=1)
     @Column(name = "ID_PACIENTE")
     private int idPaciente;
     
@@ -50,13 +50,13 @@ public class Paciente implements Serializable {
     private String estado;
 
     @Column(name = "FECHA_INGRESO", nullable = false)
-    private Date fechaIngreso;
+    private Timestamp fechaIngreso;
 
     @Column(name = "USUARIO_INGRESO", nullable = false)
     private String usuarioIngreso;
 
     @Column(name = "FECHA_MODIFICACION")
-    private Date fechaModificacion;
+    private Timestamp fechaModificacion;
     
     @Column(name = "USUARIO_MODIFICACION")
     private String usuarioModificacion;

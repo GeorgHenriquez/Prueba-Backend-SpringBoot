@@ -2,14 +2,12 @@ package com.prueba.controllers;
 
 import com.prueba.dto.PacienteDTO;
 import com.prueba.services.PacienteService;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,15 +27,16 @@ public class PacienteController {
 
     @GetMapping()
     public ResponseEntity<Object> getPacientes(
-            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "page", defaultValue = "1", required = false) int page,
             @RequestParam(value = "perPage", defaultValue = "5", required = false) int perPage,
             @RequestParam(value = "tipoFiltro", defaultValue = "", required = false) String tipoFiltro,
             @RequestParam(value = "valorFiltro", defaultValue = "", required = false) String valorFiltro,
             @RequestParam(value = "estado", defaultValue = "S", required = false) String estado) {
         
         Map<String, Object> response = new HashMap<String, Object>();
-        Map<String, Object> data = pacienteService.listaPacientes(page, perPage,
-                tipoFiltro, valorFiltro, estado);
+        
+        Map<String, Object> data = pacienteService.listaPacientes(page, perPage, tipoFiltro, valorFiltro, estado);
+        
         response.put("code", 200);
         response.put("success", true);
         response.put("message", "OK");
