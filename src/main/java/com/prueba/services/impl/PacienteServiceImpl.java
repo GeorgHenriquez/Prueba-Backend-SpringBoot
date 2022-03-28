@@ -56,7 +56,7 @@ public class PacienteServiceImpl implements PacienteService {
         else if (page < 1 || perPage < 1)
             throw new ApiException("El campo page o perPage no es válido.");
 
-        String[] strFiltros = {"numero_identificacion", "nombre_completo", "email"};
+        String[] strFiltros = {"numeroIdentificacion", "nombreCompleto", "email"};
         if (!Validator.isEmpty(tipoFiltro) && !Arrays.stream(strFiltros).anyMatch(tipoFiltro::equalsIgnoreCase))
             throw new ApiException("El campo tipo filtro no es válido.");
         if (!Validator.isEmpty(tipoFiltro) && Validator.isEmpty(valorFiltro))
@@ -73,9 +73,9 @@ public class PacienteServiceImpl implements PacienteService {
         sb.append(" WHERE pa.codigo_tipo_identificacion = ti.codigo_tipo_identificacion"
                 + " AND pa.estado = :estado");
 
-        if (tipoFiltro.equals("numero_identificacion"))
+        if (tipoFiltro.equals("numeroIdentificacion"))
             sb.append(" AND pa.numero_identificacion LIKE :numeroIdentificacion");
-        else if (tipoFiltro.equals("nombre_completo"))
+        else if (tipoFiltro.equals("nombreCompleto"))
             sb.append(" AND pa.nombre_completo LIKE :nombreCompleto");
         else if (tipoFiltro.equals("email"))
             sb.append(" AND pa.email LIKE :email");
@@ -85,9 +85,9 @@ public class PacienteServiceImpl implements PacienteService {
         query.setMaxResults(perPage);
         query.setParameter("estado", estado);
 
-        if (tipoFiltro.equalsIgnoreCase("numero_identificacion"))
+        if (tipoFiltro.equalsIgnoreCase("numeroIdentificacion"))
             query.setParameter("numeroIdentificacion", "%"+valorFiltro+"%");
-        else if (tipoFiltro.equalsIgnoreCase("nombre_completo"))
+        else if (tipoFiltro.equalsIgnoreCase("nombreCompleto"))
             query.setParameter("nombreCompleto", "%"+valorFiltro+"%");
         else if (tipoFiltro.equalsIgnoreCase("email"))
             query.setParameter("email", "%"+valorFiltro+"%");
@@ -140,9 +140,8 @@ public class PacienteServiceImpl implements PacienteService {
         int codigoIdentificacion = pacienteDTO.getCodigoTipoIdentificacion();
         String numeroIdentificacion = pacienteDTO.getNumeroIdentificacion();
         if (codigoIdentificacion != 0 || !Objects.isNull(numeroIdentificacion)) {
-            throw new ApiException("Los campos de código y número de identificación no se pueden modificar.");
+            throw new ApiException("No es posible modificar los campos de número y código de identificación.");
         }
-        System.out.print("ADONDE");
         Paciente paciente = pacienteRepository.findById(idPaciente).
                 orElseThrow(() -> new ResourceNotFoundException("Paciente", "id", idPaciente));
         
@@ -170,7 +169,6 @@ public class PacienteServiceImpl implements PacienteService {
         paciente.setEstado("N");
         paciente.setFechaModificacion(new Timestamp(System.currentTimeMillis()));
         paciente.setUsuarioModificacion(usuario.getUsername());
-        paciente.setUsuarioModificacion("1");
         Paciente pacienteActualizado = pacienteRepository.save(paciente);
         return entityToDTO(pacienteActualizado);
     }

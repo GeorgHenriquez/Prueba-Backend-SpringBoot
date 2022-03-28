@@ -2,6 +2,7 @@ package com.prueba.controllers;
 
 import com.prueba.dto.UsuarioDTO;
 import com.prueba.security.JwtTokenProvider;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class AuthController {
         } catch (Exception ae) {
             response.put("code", 401);
             response.put("success", false);
-            response.put("message", "Usuario no autenticado.");
+            response.put("message", "Las credenciales de autenticación no son válidas.");
+            response.put("errorData", new ArrayList<>());
             return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
         }
         
